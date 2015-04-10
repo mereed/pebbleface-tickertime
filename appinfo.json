@@ -1,0 +1,42 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "mreed",
+    "longName": "ticker time",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "fonts/enhanced_dot_digital-7.ttf",
+                "name": "FONT_CUSTOM_34",
+                "type": "font"
+            },
+            {
+                "file": "fonts/CaviarDreams.ttf",
+                "name": "FONT_CUSTOM_14",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[0-9: amp]",
+                "file": "fonts/CaviarDreams.ttf",
+                "name": "FONT_CUSTOM_18",
+                "type": "font"
+            },
+            {
+                "file": "images/dot_back.png",
+                "name": "IMAGE_BACK",
+                "type": "png"
+            }
+        ]
+    },
+    "sdkVersion": "2",
+    "shortName": "ticker time",
+    "uuid": "3cac5c68-fbf1-4f6b-af58-6abcc398c1db",
+    "versionCode": 1,
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": true
+    }
+}
