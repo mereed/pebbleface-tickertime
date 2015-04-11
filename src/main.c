@@ -21,6 +21,7 @@ static BitmapLayer *background_layer;
 #define TEXTBOX_HEIGHT 44
 #define TEXTBOX_WIDTH 2000
 	
+bool text_Displayed = false;
 
 
 // animates layer by number of pixels
@@ -29,11 +30,23 @@ PropertyAnimation *s_box_animation;
 // prototype so anim_stopped_handler can compile (implementation below)
 void animate_text();
 
+
+// when watch is shaken or tapped
+static void accel_tap_handler(AccelAxisType axis, int32_t direction) {   
+    if (text_Displayed) {
+      animate_text();
+      text_Displayed = false;
+    } else {
+      animate_text();
+      text_Displayed = true;
+    }   
+}
+
 void anim_stopped_handler(Animation *animation, bool finished, void *context) {
 	
    // Schedule the reverse animation, unless the app is exiting
   if (finished) {
-    animate_text();
+//    animate_text();
   }
 }
 
@@ -117,7 +130,6 @@ static void handle_minute_tick(struct tm *tick_time, TimeUnits units_changed) {
 	text_layer_set_text(s_time_layer, s_time_text);	
 	text_layer_set_text(static_time_layer, s_time_text1);
 	
-	  animate_text();
 
 }
 
@@ -128,7 +140,7 @@ static void main_window_load(Window *window) {
   bitmap_layer_set_bitmap(background_layer, background_image);
   layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(background_layer));
 	
-  custom_font = fonts_load_custom_font( resource_get_handle( RESOURCE_ID_FONT_CUSTOM_34 ) );
+  custom_font = fonts_load_custom_font( resource_get_handle( RESOURCE_ID_FONT_CUSTOM_33 ) );
   custom_font1 = fonts_load_custom_font( resource_get_handle( RESOURCE_ID_FONT_CUSTOM_18 ) );
   custom_font2 = fonts_load_custom_font( resource_get_handle( RESOURCE_ID_FONT_CUSTOM_14 ) );
 
@@ -153,7 +165,8 @@ static void main_window_load(Window *window) {
   text_layer_set_font(battery_text_layer, custom_font2);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(battery_text_layer));	
   
-	
+  accel_tap_service_subscribe(&accel_tap_handler);
+
   bluetooth_connection_service_subscribe(&handle_bluetooth);
   battery_state_service_subscribe(update_battery_state);
   tick_timer_service_subscribe(MINUTE_UNIT, &handle_minute_tick);
@@ -191,6 +204,8 @@ static void deinit() {
   tick_timer_service_unsubscribe();
   bluetooth_connection_service_unsubscribe();
 
+  accel_tap_service_unsubscribe();
+
   fonts_unload_custom_font( custom_font );
   fonts_unload_custom_font( custom_font1 );
   fonts_unload_custom_font( custom_font2 );
@@ -201,6 +216,8 @@ static void deinit() {
 
 int main(void) {
   init();
+	
+
   app_event_loop();
   deinit();
 }
