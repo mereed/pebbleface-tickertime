@@ -33,6 +33,9 @@ void animate_text();
 
 // when watch is shaken or tapped
 static void accel_tap_handler(AccelAxisType axis, int32_t direction) {   
+	
+    layer_set_hidden(bitmap_layer_get_layer(background_layer), false);
+
     if (text_Displayed) {
       animate_text();
       text_Displayed = false;
@@ -46,6 +49,7 @@ void anim_stopped_handler(Animation *animation, bool finished, void *context) {
 	
    // Schedule the reverse animation, unless the app is exiting
   if (finished) {
+      layer_set_hidden(bitmap_layer_get_layer(background_layer), true);
 //    animate_text();
   }
 }
@@ -63,8 +67,8 @@ void animate_text() {
   animation_set_delay((Animation*)s_box_animation, 1000);
 
   animation_schedule((Animation*)s_box_animation);
-}
 
+}
 
 void update_battery_state(BatteryChargeState charge_state) {
     static char battery_text[] = "100%";
@@ -139,6 +143,7 @@ static void main_window_load(Window *window) {
   background_layer = bitmap_layer_create(GRect(0, 82, 144, 44));
   bitmap_layer_set_bitmap(background_layer, background_image);
   layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(background_layer));
+      layer_set_hidden(bitmap_layer_get_layer(background_layer), true);
 	
   custom_font = fonts_load_custom_font( resource_get_handle( RESOURCE_ID_FONT_CUSTOM_33 ) );
   custom_font1 = fonts_load_custom_font( resource_get_handle( RESOURCE_ID_FONT_CUSTOM_18 ) );
@@ -219,5 +224,6 @@ int main(void) {
 	
 
   app_event_loop();
+
   deinit();
 }
