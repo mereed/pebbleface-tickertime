@@ -9,19 +9,18 @@
     "resources": {
         "media": [
             {
+                "file": "images/background.png",
+                "name": "IMAGE_BACKGROUND",
+                "type": "png"
+            },
+            {
                 "file": "fonts/enhanced_dot_digital-7.ttf",
                 "name": "FONT_CUSTOM_33",
                 "type": "font"
             },
             {
                 "file": "fonts/CaviarDreams.ttf",
-                "name": "FONT_CUSTOM_14",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[0-9: amp]",
-                "file": "fonts/CaviarDreams.ttf",
-                "name": "FONT_CUSTOM_18",
+                "name": "FONT_CUSTOM_16",
                 "type": "font"
             },
             {
