@@ -24,7 +24,6 @@ bool month = true;
 #define WINDOW_WIDTH 144  
 #define TEXTBOX_HEIGHT 44
 #define TEXTBOX_WIDTH 2000
-	
 
 
 // animates layer by number of pixels
@@ -123,7 +122,7 @@ void animate_text() {
   }, NULL);
   animation_set_duration((Animation*)s_box_animation, 20000 );
   animation_set_curve((Animation*)s_box_animation, AnimationCurveLinear);
-  animation_set_delay((Animation*)s_box_animation, 1000);
+  animation_set_delay((Animation*)s_box_animation, 0);
 
   animation_schedule((Animation*)s_box_animation);
 }
