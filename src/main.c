@@ -23,7 +23,7 @@ bool month = true;
 #define WINDOW_HEIGHT 168
 #define WINDOW_WIDTH 144  
 #define TEXTBOX_HEIGHT 44
-#define TEXTBOX_WIDTH 2000
+#define TEXTBOX_WIDTH 1500
 
 
 // animates layer by number of pixels
@@ -57,7 +57,7 @@ void update_layer(Layer *me, GContext* ctx)
 	graphics_context_set_text_color(ctx, GColorWhite);
 	
 	//draw background
-	graphics_draw_bitmap_in_rect(ctx,background,GRect(1,0,144,168));
+	graphics_draw_bitmap_in_rect(ctx,background,GRect(0,0,144,168));
 	
 	//get tick_time
 	time_t temp = time(NULL); 
@@ -65,8 +65,8 @@ void update_layer(Layer *me, GContext* ctx)
 
 	//draw hands
 	GPoint center = GPoint(71,99);
-	int16_t minuteHandLength = 60;
-	int16_t hourHandLength = 35;
+	int16_t minuteHandLength = 58;
+	int16_t hourHandLength = 32;
 	GPoint minuteHand;
 	GPoint hourHand;
 
@@ -114,7 +114,7 @@ void anim_stopped_handler(Animation *animation, bool finished, void *context) {
 
 void animate_text() {
   GRect start_frame = GRect(144, 79, WINDOW_WIDTH, TEXTBOX_HEIGHT);
-  GRect finish_frame =  GRect(-1500, 79, TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
+  GRect finish_frame =  GRect(-700, 79, TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
   
   s_box_animation = property_animation_create_layer_frame(text_layer_get_layer(s_time_layer), &start_frame, &finish_frame);
   animation_set_handlers((Animation*)s_box_animation, (AnimationHandlers) {
@@ -175,13 +175,13 @@ static void handle_minute_tick(struct tm *tick_time, TimeUnits units_changed) {
 	//redraw every tick
 	layer_mark_dirty(layer);
 	
-  static char s_time_text[] = "Wednesday 00 September  00:00pm";
+  static char s_time_text[] = "Today is Wednesday 00 September 2015, 00:00pm";
   char *time_format;
 
     if (clock_is_24h_style()) {
-        time_format = "%A %d %B  %R";	
+        time_format = "Today is %A %d %B %Y, %R";	
     } else {
-        time_format = "%A %d %B  %l:%M%P";
+        time_format = "Today is %A %d %B %Y, %l:%M%P";
     }
 
     strftime(s_time_text, sizeof(s_time_text), time_format, tick_time);
@@ -210,10 +210,10 @@ static void main_window_load(Window *window) {
   custom_font = fonts_load_custom_font( resource_get_handle( RESOURCE_ID_FONT_CUSTOM_33 ) );
   custom_font1 = fonts_load_custom_font( resource_get_handle( RESOURCE_ID_FONT_CUSTOM_16 ) );
 
-  s_time_layer = text_layer_create(GRect(0, 0, 720, 40));
+  s_time_layer = text_layer_create(GRect(145, 79, 700, 40));
   text_layer_set_text_color(s_time_layer, GColorWhite);
   text_layer_set_background_color(s_time_layer, GColorClear);
-  text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
+  text_layer_set_text_alignment(s_time_layer, GTextAlignmentLeft);
   text_layer_set_font(s_time_layer, custom_font);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
 	
